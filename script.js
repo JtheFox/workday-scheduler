@@ -16,7 +16,7 @@ $(function() {
         const saveData = JSON.parse(localStorage.getItem('scheduleData')) || {};
         let target = $(event.target);
         let hour = target.siblings('.hour').text();
-        hour = hour.toLowerCase().includes('pm') ? parseInt(hour) + 12 : parseInt(hour);
+        hour = hour.toLowerCase().includes('pm') && parseInt(hour) < 12 ? parseInt(hour) + 12 : parseInt(hour);
         const desc = target.siblings('.description').val();
 
         saveData[hour] = desc;
