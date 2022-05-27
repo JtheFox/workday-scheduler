@@ -5,6 +5,7 @@ const workDay = {
 }
 
 $(function() {
+    // localStorage.removeItem('scheduleData');
     $('.timeDisplay').text(moment().format('dddd MMM Do'));
     const saveData = JSON.parse(localStorage.getItem('scheduleData')) || [];
     for (let i = workDay.start; i < workDay.end; i += workDay.interval) {
@@ -14,13 +15,17 @@ $(function() {
 
     $('.saveBtn').on('click', function(event) {
         const saveData = JSON.parse(localStorage.getItem('scheduleData')) || [];
+        console.log(saveData); 
         let target = $(event.target);
         const hour = parseInt(target.siblings('.hour').text());
         const desc = target.siblings('.description').val();
         
-        const dataIndex = saveData.findIndex(e => e[0] === i) || saveData.length;
+        //TODO: Seems like this use of findIndex isn't working entirely as intended, it's not replacing existing items in the array
+        let dataIndex = saveData.findIndex(e => e[0] === hour);
+        console.log(hour, dataIndex);
+        dataIndex = dataIndex < 0 ? 0 : saveData.length
         saveData[dataIndex] = [hour, desc];
-        //TODO: Stringify not working for 2d array? maybe find a new data structure
+        
         console.log(saveData); 
         localStorage.setItem('scheduleData', JSON.stringify(saveData));
     })
