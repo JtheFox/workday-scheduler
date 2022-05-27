@@ -18,11 +18,8 @@ $(function() {
         const hour = parseInt(target.siblings('.hour').text());
         const desc = target.siblings('.description').val();
         
-        if (!saveData) saveData.push([hour, desc]);
-        else {
-            const dataIndex = saveData.findIndex(e => e[0] === i) || saveData.length;
-            saveData[dataIndex] = [hour, desc];
-        }
+        const dataIndex = saveData.findIndex(e => e[0] === i) || saveData.length;
+        saveData[dataIndex] = [hour, desc];
         //TODO: Stringify not working for 2d array? maybe find a new data structure
         console.log(saveData); 
         localStorage.setItem('scheduleData', JSON.stringify(saveData));
