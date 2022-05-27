@@ -5,12 +5,11 @@ const workDay = {
 }
 
 $(function() {
-    // localStorage.removeItem('scheduleData');
     $('.timeDisplay').text(moment().format('dddd MMM Do'));
     const saveData = JSON.parse(localStorage.getItem('scheduleData')) || [];
     for (let i = workDay.start; i < workDay.end; i += workDay.interval) {
         const timeEvent = saveData.find(e => e[0] === i) || '';
-        $('.container').append(createTimeBlock(i, timeEvent));
+        $('.container').append(createTimeBlock(i, timeEvent[1]));
     }
 
     $('.saveBtn').on('click', function(event) {
