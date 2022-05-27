@@ -5,12 +5,31 @@ const workDay = {
 }
 
 $(function() {
-    for(let i = workDay.start; i < workDay.end; i += workDay.interval) {
-        $('.container').append(createTimeBlock(i));
+    $('.timeDisplay').text(moment().format('dddd MMM Do'));
+    const saveData = JSON.parse(localStorage.getItem('scheduleData')) || [];
+    for (let i = workDay.start; i < workDay.end; i += workDay.interval) {
+        const timeEvent = saveData.find(e => e[0] === i) || '';
+        $('.container').append(createTimeBlock(i, timeEvent));
     }
+
+    $('.saveBtn').on('click', function(event) {
+        const saveData = JSON.parse(localStorage.getItem('scheduleData')) || [];
+        let target = $(event.target);
+        const hour = parseInt(target.siblings('.hour').text());
+        const desc = target.siblings('.description').val();
+        
+        if (!saveData) saveData.push([hour, desc]);
+        else {
+            const dataIndex = saveData.findIndex(e => e[0] === i) || saveData.length;
+            saveData[dataIndex] = [hour, desc];
+        }
+        //TODO: Stringify not working for 2d array? maybe find a new data structure
+        console.log(saveData); 
+        localStorage.setItem('scheduleData', JSON.stringify(saveData));
+    })
 });
 
-function createTimeBlock(startTime) {
+function createTimeBlock(startTime, eventData) {
     const currTime = parseInt(moment().format('H'));
     const time = startTime > 11 ? `${startTime - 12 || 12}PM` : `${startTime}AM`;
     let relTime;
@@ -21,7 +40,7 @@ function createTimeBlock(startTime) {
     const timeBlock = $('<div></div>').addClass('time-block row');
     const hour = $('<p></p>').addClass('hour').text(time);
     timeBlock.append(hour);
-    const textarea = $('<textarea rows="5"></textarea>').addClass(`description ${relTime}`)
+    const textarea = $('<textarea rows="5"></textarea>').addClass(`description ${relTime}`).val(eventData)
     timeBlock.append(textarea);
     const saveBtn = $('<button></button>').addClass('saveBtn').text('💾');
     timeBlock.append(saveBtn);
