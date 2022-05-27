@@ -14,13 +14,11 @@ $(function() {
 
     $('.saveBtn').on('click', function(event) {
         const saveData = JSON.parse(localStorage.getItem('scheduleData')) || {};
-        console.log(saveData); 
         let target = $(event.target);
         const hour = parseInt(target.siblings('.hour').text());
         const desc = target.siblings('.description').val();
 
         saveData[hour] = desc;
-        console.log(saveData); 
         localStorage.setItem('scheduleData', JSON.stringify(saveData));
     })
 });
