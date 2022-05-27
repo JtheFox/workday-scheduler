@@ -14,7 +14,6 @@ function createTimeBlock(startTime) {
     const currTime = parseInt(moment().format('H'));
     const time = startTime > 11 ? `${startTime - 12 || 12}PM` : `${startTime}AM`;
     let relTime;
-    console.log(startTime, currTime)
     if (startTime < currTime) relTime = 'past';
     else if (startTime === currTime) relTime = 'present';
     else relTime = 'future';
