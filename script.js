@@ -3,28 +3,23 @@ const workDay = {
     end: 18, // 6pm
     interval: 1 // hours
 }
-
+//TODO: add save button animations
 $(function() {
     $('.timeDisplay').text(moment().format('dddd MMM Do'));
-    const saveData = JSON.parse(localStorage.getItem('scheduleData')) || [];
+    const saveData = JSON.parse(localStorage.getItem('scheduleData')) || {};
     for (let i = workDay.start; i < workDay.end; i += workDay.interval) {
-        const timeEvent = saveData.find(e => e[0] === i) || '';
-        $('.container').append(createTimeBlock(i, timeEvent[1]));
+        const timeEvent = saveData[i] || '';
+        $('.container').append(createTimeBlock(i, timeEvent));
     }
 
     $('.saveBtn').on('click', function(event) {
-        const saveData = JSON.parse(localStorage.getItem('scheduleData')) || [];
+        const saveData = JSON.parse(localStorage.getItem('scheduleData')) || {};
         console.log(saveData); 
         let target = $(event.target);
         const hour = parseInt(target.siblings('.hour').text());
         const desc = target.siblings('.description').val();
-        
-        //TODO: Seems like this use of findIndex isn't working entirely as intended, it's not replacing existing items in the array
-        let dataIndex = saveData.findIndex(e => e[0] === hour);
-        console.log(hour, dataIndex);
-        dataIndex = dataIndex < 0 ? 0 : saveData.length
-        saveData[dataIndex] = [hour, desc];
-        
+
+        saveData[hour] = desc;
         console.log(saveData); 
         localStorage.setItem('scheduleData', JSON.stringify(saveData));
     })
