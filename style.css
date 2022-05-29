@@ -80,9 +80,15 @@ button {
   border-bottom-right-radius: 15px;
   background-color: #06aed5;
   color: white;
+  box-shadow: none;
+  transition: all 0.1s ease-in-out;
 }
 
-.saveBtn i:hover {
+.saveBtn:hover {
   font-size: 20px;
-  transition: all 0.3s ease-in-out;
+  background-color: aquamarine;
+}
+
+.saveBtn:active {
+  box-shadow: inset -0.2rem 0.2rem rgba(0, 0, 0, 0.5);
 }
