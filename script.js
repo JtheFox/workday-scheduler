@@ -3,7 +3,7 @@ const workDay = {
     end: 18, // 6pm
     interval: 1 // hours
 }
-//TODO: add save button animations
+
 $(function() {
     $('.timeDisplay').text(moment().format('dddd MMM Do'));
     const saveData = JSON.parse(localStorage.getItem('scheduleData')) || {};
