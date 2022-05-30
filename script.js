@@ -20,7 +20,7 @@ $(function() {
         // get timeblock hour being targeted, get textarea content for storage
         let target = $(event.target);
         let hour = target.siblings('.hour').text();
-        hour = hour.toLowerCase().includes('pm') && parseInt(hour) < 12 ? parseInt(hour) + 12 : parseInt(hour);
+        hour = moment(hour, ["hA"]).format("H");
         const desc = target.siblings('.description').val();
         // store textarea data in object and update localStorage
         saveData[hour] = desc;
@@ -29,9 +29,9 @@ $(function() {
 });
 
 function createTimeBlock(startTime, eventData) {
-    // parse 24h to 12h format, could be fully done with moment?
+    // parse 24h to 12h format
     const currTime = parseInt(moment().format('H'));
-    const time = startTime > 11 ? `${startTime - 12 || 12}PM` : `${startTime}AM`;
+    const time = moment(startTime, ["HH"]).format("hA");
     // determine whether timeblock component is past/present/future for styling
     let relTime;
     if (startTime < currTime) relTime = 'past';
